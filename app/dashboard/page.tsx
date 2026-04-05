@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BookingsTable } from '@/components/bookings-table';
 import { MessagesTable } from '@/components/messages-table';
 import { AutoRefresh } from '@/components/auto-refresh';
+import { OutboundCallForm } from '@/components/outbound-call-form';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,6 +22,7 @@ export default async function DashboardPage() {
           <h1 className="text-2xl font-semibold">Hemut Receptionist</h1>
           <p className="text-zinc-400 mt-1">Activity logged by Aria</p>
         </div>
+        <OutboundCallForm />
         <Tabs defaultValue="bookings">
           <TabsList className="bg-zinc-900 border border-zinc-800 mb-6">
             <TabsTrigger value="bookings">
