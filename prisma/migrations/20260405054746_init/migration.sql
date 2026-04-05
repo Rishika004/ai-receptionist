@@ -1,0 +1,19 @@
+-- CreateTable
+CREATE TABLE "Booking" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "date" TEXT NOT NULL,
+    "time" TEXT NOT NULL,
+    "googleEventId" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- CreateTable
+CREATE TABLE "Message" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL,
+    "phone" TEXT NOT NULL,
+    "message" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
