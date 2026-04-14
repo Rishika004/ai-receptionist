@@ -8,21 +8,31 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { name, phone, message } = await request.json();
+  const body = await request.json();
+  console.log('[log-message] received body:', body);
 
-  if (!name || !phone || !message) {
-    return NextResponse.json(
-      { error: 'name, phone, and message are required' },
-      { status: 400 },
-    );
+  // Retell wraps arguments inside body.args
+  const args = body.args ?? body;
+  const name = args.name ?? args.caller_name ?? 'Unknown';
+  const phone = args.phone ?? args.caller_phone ?? args.phone_number ?? 'Unknown';
+  const message = args.message ?? args.reason ?? args.note ?? 'No message provided';
+
+  try {
+    await db.message.create({ data: { name, phone, message } });
+  } catch (err) {
+    console.error('[log-message] DB error:', err);
+    return NextResponse.json({ error: String(err) }, { status: 500 });
   }
 
-  await db.message.create({ data: { name, phone, message } });
+  try {
+    await sendEmail(
+      `New message from ${name}: ${message}`,
+      `Aria has logged a message.\n\nName: ${name}\nPhone: ${phone}\nMessage: ${message}`,
+    );
+  } catch (err) {
+    console.error('[log-message] email error (non-fatal):', err);
+  }
 
-  await sendEmail(
-    `New message from ${name}: ${message}`,
-    `Aria has logged a message.\n\nName: ${name}\nPhone: ${phone}\nMessage: ${message}`,
-  );
-
+  console.log('[log-message] saved successfully');
   return NextResponse.json({ success: true });
 }

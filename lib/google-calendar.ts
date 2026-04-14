@@ -49,7 +49,7 @@ export async function getAvailableSlots(date: string): Promise<string[]> {
     });
   });
 
-  return available.slice(0, 5);
+  return available;
 }
 
 export async function createCalendarEvent(

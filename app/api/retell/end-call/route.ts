@@ -6,7 +6,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { reason } = await request.json();
-  console.log(`[Aria] Call transfer requested. Reason: ${reason}`);
+  const body = await request.json();
+  const args = body.args ?? body;
+  console.log(`[Aria] Call transfer requested. Reason: ${args.reason}`);
   return NextResponse.json({ success: true });
 }
